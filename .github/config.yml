@@ -1,0 +1,18 @@
+issueOpened: 'Issue Opened! Executed from config.yml'
+prOpened: 'Pull Request Opened! Executed from config.yml'
+
+jobs:
+  - targetBranch: main
+    jenkinsUrl: 'https://d4d1-2401-4900-1c42-8fff-00-33-96de.ngrok-free.app/job/AD.steering.control.main.build/'
+    triggers:
+      pull_request:
+        labels:
+          - Check
+          - Merge
+  - targetBranch: release
+    jenkinsUrl: 'https://d4d1-2401-4900-1c42-8fff-00-33-96de.ngrok-free.app/job/AD.steering.control.main.release/'
+    triggers:
+      pull_request:
+        labels:
+          - Check
+          - Merge

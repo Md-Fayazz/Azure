@@ -1,0 +1,9 @@
+[requires]
+cmake/3.26.5@hussain/test
+python/3.10.0_temp@hussain/test
+vscode/1.82.2@hussain/test
+gcc/13.1.0_test@hussain/test
+
+[generators]
+virtualenv
+cmake

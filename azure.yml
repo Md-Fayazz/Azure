@@ -1,0 +1,42 @@
+pr:
+ labeled:
+    - Check
+    - Merge
+
+trigger:
+- none 
+
+pool:
+  name: Azure
+
+jobs:
+- job: PipelineStages
+  steps:
+  - script: |
+      echo "Syncing Repo"
+      git checkout $(Build.SourceBranchName)
+      git submodule update --init --recursive
+    displayName: 'Sync Repository'
+    
+  - script: |
+      echo "Build"
+      .env/Build_jenkins_global.bat
+    displayName: 'Build'
+    
+  - script: |
+      echo "Checking NV Memory"
+    displayName: 'Check NV Memory'
+    
+  - script: |
+      echo "GTest"
+      cd .build
+      call activate.bat && cmake --build . --target all_test
+    displayName: 'GTest'
+    
+  - script: |
+      echo "Archive Artifacts"
+    displayName: 'Archive Artifacts'
+    
+  - script: |
+      echo "Artifactory upload"
+    displayName: 'Artifactory Upload'
