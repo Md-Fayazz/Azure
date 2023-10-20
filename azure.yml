@@ -1,3 +1,23 @@
+parameters:
+  - name: PR_Number
+    type: string
+    default: ''
+  - name: GITHUB_REPO_OWNER
+    type: string
+    default: ''
+  - name: GITHUB_REPO_NAME
+    type: string
+    default: ''
+  - name: Label
+    type: string
+    default: ''
+  - name: SHA
+    type: string
+    default: ''
+  - name: pr_sourcebranch
+    type: string
+    default: ''
+
 trigger:
   branches:
     exclude:
