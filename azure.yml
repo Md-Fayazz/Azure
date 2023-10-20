@@ -76,7 +76,7 @@ jobs:
           }
       }
       
-      $url = 'https://b2e5-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status'  # Replace with your target URL
+      $url = 'https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status'  # Replace with your target URL
       $payload = @{
           build_status = if ($allStepsSuccessful) { 'success' } else { 'failure' }
       }
