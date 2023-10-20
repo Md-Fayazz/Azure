@@ -44,7 +44,7 @@ jobs:
     
   - script: |
       echo "Build"
-      .env/Build_jenkins_global.bat
+      .envv/Build_jenkins_global.bat
     displayName: 'Build'
     
   - script: |
@@ -64,22 +64,3 @@ jobs:
   - script: |
       echo "Artifactory upload"
     displayName: 'Artifactory Upload'
-
-  - powershell: |
-      $previousSteps = ${{ task.previousResult.* }}  
-      $allStepsSuccessful = $true
-      
-      foreach ($result in $previousSteps.GetEnumerator()) {
-          if ($result.Value -ne 'Succeeded') {
-              $allStepsSuccessful = $false
-              break
-          }
-      }
-      
-      $url = 'https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status'  # Replace with your target URL
-      $payload = @{
-          build_status = if ($allStepsSuccessful) { 'success' } else { 'failure' }
-      }
-      $response = Invoke-RestMethod -Uri $url -Method POST -ContentType 'application/json' -Body ($payload | ConvertTo-Json)
-      Write-Host "Response from API: $response"
-    displayName: 'Send Build status'
