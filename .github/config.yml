@@ -3,7 +3,7 @@ prOpened: 'Pull Request Opened! Executed from config.yml'
 
 jobs:
   - targetBranch: main
-    jenkinsUrl: 'https://dev.azure.com/mdfayazz/A-Devops/_apis/pipelines/9/runs?api-version=6.0'
+    azurepipelineUrl: 'https://dev.azure.com/mdfayazz/A-Devops/_apis/pipelines/9/runs?api-version=6.0'
     triggers:
       pull_request:
         labels:
