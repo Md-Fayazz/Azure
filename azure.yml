@@ -5,6 +5,11 @@ trigger:
   paths:
     exclude:
       - '*'
+pr:
+  branches:
+    exclude:
+      - '*'
+      
 pool:
   name: Azure
 
