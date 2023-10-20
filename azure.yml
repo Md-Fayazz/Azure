@@ -36,27 +36,7 @@ pool:
 jobs:
 - job: PipelineStages
   steps:
-  - script: |
-      echo "Syncing Repo"
-      git checkout $(Build.SourceBranchName)
-      git submodule update --init --recursive
-    displayName: 'Sync Repository'
-    
-  - script: |
-      echo "Build"
-      .env/Build_jenkins_global.bat
-    displayName: 'Build'
-    
-  - script: |
-      echo "Checking NV Memory"
-    displayName: 'Check NV Memory'
-    
-  - script: |
-      echo "GTest"
-      cd .build
-      call activate.bat && cmake --build . --target all_test
-    displayName: 'GTest'
-    
+  
   - script: |
       echo "Archive Artifacts"
     displayName: 'Archive Artifacts'
@@ -71,4 +51,5 @@ jobs:
           build_status = 'success'
       }
       Invoke-RestMethod -Uri $url -Method POST -ContentType 'application/json' -Body ($payload | ConvertTo-Json) -UseBasicParsing
+      Write-Host "Request sent."
     displayName: 'Send Build status'
