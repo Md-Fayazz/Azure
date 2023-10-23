@@ -20,4 +20,4 @@ jobs:
       echo "URL: https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status"
       echo "JSON Data: { \"build_status\": \"success\" }"
       (curl -X POST -H "Content-Type: application/json" -d "{ \"build_status\": \"success\" }" https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status --max-time 10) || exit 0
-    displayName: 'Make HTTP Request'
+    displayName: 'Sending Status'
