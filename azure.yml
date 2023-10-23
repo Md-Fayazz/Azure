@@ -67,12 +67,16 @@ jobs:
     displayName: 'Artifactory Upload'
 
    - powershell: |
-      Start-Job -ScriptBlock {
-      $url = 'https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status'  
-      $payload = @{
-          build_status = 'success'
-      }
-      Invoke-RestMethod -Uri $url -Method POST -ContentType 'application/json' -Body ($payload | ConvertTo-Json) -UseBasicParsing
-      Remove-Job -Name "SendBuildStatus"
-      } -Name "SendBuildStatus" -RunAs32
+    Start-Job -ScriptBlock {
+        $url = 'https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status'
+        $payload = @{
+            build_status = 'success'
+        }
+        Invoke-RestMethod -Uri $url -Method POST -ContentType 'application/json' -Body ($payload | ConvertTo-Json) -UseBasicParsing
+        Remove-Job -Name "SendBuildStatus"
+    } -Name "SendBuildStatus"
+    while ((Get-Job -Name "SendBuildStatus" | Where-Object State -eq 'Running')) {
+        Start-Sleep -Seconds 1
+    }
+  displayName: 'Send Build status'
 
