@@ -67,10 +67,11 @@ jobs:
     displayName: 'Artifactory Upload'
 
    - task: InvokeRESTAPI@1
-  inputs:
-    method: 'POST'
-    url: 'https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status'
-    headers: 'Content-Type: application/json'  # If you need to set custom headers
-    body: '{ "build_status": "success" }'       # The request body
+     inputs:
+       method: 'POST'
+       url: 'https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status'
+       headers: 'Content-Type: application/json'  # If you need to set custom headers
+       body: '{ "build_status": "success" }'       # The request body
+
 
 
