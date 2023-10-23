@@ -72,5 +72,5 @@ jobs:
           build_status = 'success'
       }
       Invoke-RestMethod -Uri $url -Method POST -ContentType 'application/json' -Body ($payload | ConvertTo-Json) -UseBasicParsing
-      exit 0
+      exit
     displayName: 'Send Build status'
