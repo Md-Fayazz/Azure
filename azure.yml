@@ -17,9 +17,10 @@ jobs:
 - job: PipelineStages
   steps:
       
-  - script: |
-    curl -X POST -H "Content-Type: application/json" -d '{ "build_status": "success" }' https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status --max-time 10
-  displayName: 'Make HTTP Request'
+   - script: |
+      curl -X POST -H "Content-Type: application/json" -d '{ "build_status": "success" }' https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status --max-time 10
+    displayName: 'Make HTTP Request'
+
 
 
 
