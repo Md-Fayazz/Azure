@@ -16,17 +16,16 @@ pool:
 jobs:
 - job: PipelineStages
   steps:
-      
-   - powershell: |
-    $result = $null
-    $curlScript = "curl -X POST -H 'Content-Type: application/json' -d '{""build_status"": ""success""}' https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status"
-    
-    try {
-        $result = timeout -t 30 $curlScript
-    } catch {
-        Write-Host "Timeout exceeded. The curl command took too long."
-        exit 1  # You can specify the exit code for a timeout error
-    }
-    
-    Write-Host "Curl result: $result"
-  displayName: 'Make HTTP Request with Timeout'
+  - powershell: |
+      $result = $null
+      $curlScript = "curl -X POST -H 'Content-Type: application/json' -d '{""build_status"": ""success""}' https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status"
+
+      try {
+          $result = timeout -t 30 $curlScript
+      } catch {
+          Write-Host "Timeout exceeded. The curl command took too long."
+          exit 1  # You can specify the exit code for a timeout error
+      }
+
+      Write-Host "Curl result: $result"
+    displayName: 'Make HTTP Request with Timeout'
