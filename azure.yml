@@ -16,6 +16,8 @@ pool:
 jobs:
 - job: PipelineStages
   steps:
-  - powershell: |
-    Invoke-WebRequest -Uri "https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status" -Method POST -Headers @{"Content-Type"="application/json"} -Body '{ "build_status": "success" }'
-  displayName: 'Make HTTP Request'
+  - script: |
+      echo "URL: https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status"
+      echo "JSON Data: { \"build_status\": \"success\" }"
+      curl -X POST -H "Content-Type: application/json" -d "{ \"build_status\": \"success\" }" https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status
+    displayName: 'Make HTTP Request'
