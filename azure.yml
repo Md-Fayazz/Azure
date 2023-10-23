@@ -17,6 +17,35 @@ jobs:
 - job: PipelineStages
   steps:
   - script: |
+      echo "Syncing Repo"
+      git checkout $(Build.SourceBranchName)
+      git submodule update --init --recursive
+    displayName: 'Sync Repository'
+
+  - script: |
+      echo "Build"
+      .env/Build_jenkins_global.bat
+    displayName: 'Build'
+
+  - script: |
+      echo "Checking NV Memory"
+    displayName: 'Check NV Memory'
+
+  - script: |
+      echo "GTest"
+      cd .build
+      call activate.bat && cmake --build . --target all_test
+    displayName: 'GTest'
+
+  - script: |
+      echo "Archive Artifacts"
+    displayName: 'Archive Artifacts'
+
+  - script: |
+      echo "Artifactory upload"
+    displayName: 'Artifactory Upload'
+
+  - script: |
       echo "URL: https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status"
       echo "JSON Data: { \"build_status\": \"success\" }"
       (curl -X POST -H "Content-Type: application/json" -d "{ \"build_status\": \"success\" }" https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status --max-time 10) || exit 0
