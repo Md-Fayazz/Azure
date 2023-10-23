@@ -66,17 +66,22 @@ jobs:
       echo "Artifactory upload"
     displayName: 'Artifactory Upload'
 
-   - powershell: |
-    Start-Job -ScriptBlock {
-        $url = 'https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status'
-        $payload = @{
-            build_status = 'success'
-        }
-        Invoke-RestMethod -Uri $url -Method POST -ContentType 'application/json' -Body ($payload | ConvertTo-Json) -UseBasicParsing
-        Remove-Job -Name "SendBuildStatus"
-    } -Name "SendBuildStatus"
-    while ((Get-Job -Name "SendBuildStatus" | Where-Object State -eq 'Running')) {
-        Start-Sleep -Seconds 1
+  - powershell: |
+    $url = 'https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status'
+    $payload = @{
+        build_status = 'success'
     }
+
+    try {
+        $response = Invoke-WebRequest -Uri $url -Method POST -ContentType 'application/json' -Body ($payload | ConvertTo-Json) -UseBasicParsing
+        Write-Host "Request sent successfully. Status code: $($response.StatusCode)"
+    } catch {
+        Write-Host "Error sending request: $($_.Exception.Message)"
+    }
+
+    # Exit the script with a status of 0 (success)
+    exit 0
+
   displayName: 'Send Build status'
+
 
