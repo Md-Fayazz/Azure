@@ -41,7 +41,7 @@ jobs:
   steps:
   - script: |
       echo "Building SW"
-      .env\Build_jenkins_jailed.bat
+      .env/Build_jenkins_global.bat
     displayName: 'Build'
 
   - script: |
@@ -54,8 +54,7 @@ jobs:
 
   - script: |
       cd .build
-      call activate.bat
-      cmake --build . --target all_test
+      call activate.bat && cmake --build . --target all_test
     displayName: 'GTest'
 
   - script: |
