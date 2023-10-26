@@ -58,7 +58,7 @@ jobs:
     displayName: 'GTest'
 
   - script: |
-      if (variables['Label'] == 'Check') {
+      if (parameters.Label == 'Check') {
         echo "Label is 'check', skipping Archive stage."
         exit 0
       } else {
@@ -68,7 +68,7 @@ jobs:
     displayName: 'Archive'
 
   - script: |
-      if (variables['Label'] == 'Check') {
+      if (parameters.Label == 'Check') {
         echo "Label is 'check', skipping BuildingImage stage."
         exit 0
       } else {
@@ -80,7 +80,7 @@ jobs:
     displayName: 'Building Docker Image'
 
   - script: |
-      if (variables['Label'] == 'Check') {
+      if (parameters.Label == 'Check') {
         echo "Label is 'check', skipping Release stage."
         exit 0
       } else {
