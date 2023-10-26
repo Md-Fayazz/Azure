@@ -58,7 +58,7 @@ jobs:
     displayName: 'GTest'
 
   - script: |
-      if ("${{ parameters.Label }}" == 'Check') {
+      if (${{ parameters.Label }} == 'Check') {
         echo "Label is 'check', skipping Archive stage."
         echo "Label parameter value: ${{ parameters.Label }}"
         exit 0
@@ -69,7 +69,7 @@ jobs:
     displayName: 'Archive'
 
   - script: |
-      if ("${{ parameters.Label }}" == 'Check') {
+      if (${{ parameters.Label }} == 'Check') {
         echo "Label is 'check', skipping BuildingImage stage."
         echo "Label parameter value: ${{ parameters.Label }}"
         exit 0
@@ -82,7 +82,7 @@ jobs:
     displayName: 'Building Docker Image'
 
   - script: |
-      if ("${{ parameters.Label }}" == 'Check') {
+      if (${{ parameters.Label }} == 'Check') {
         echo "Label is 'check', skipping Release stage."
         echo "Label parameter value: ${{ parameters.Label }}"
         exit 0
