@@ -60,7 +60,7 @@ jobs:
   - script: |
       if (parameters.Label == 'Check') {
         echo "Label is 'check', skipping Archive stage."
-        echo "Label parameter value: $(Label)"
+        echo "Label parameter value: ${{ parameters.Label }}"
         exit 0
       } else {
         echo "Archiving the Repository.."
@@ -71,7 +71,7 @@ jobs:
   - script: |
       if (parameters.Label == 'Check') {
         echo "Label is 'check', skipping BuildingImage stage."
-        echo "Label parameter value: $(Label)"
+        echo "Label parameter value: ${{ parameters.Label }}"
         exit 0
       } else {
         $releaseTag = $env:RELEASE_TAG
@@ -84,7 +84,7 @@ jobs:
   - script: |
       if (parameters.Label == 'Check') {
         echo "Label is 'check', skipping Release stage."
-        echo "Label parameter value: $(Label)"
+        echo "Label parameter value: ${{ parameters.Label }}"
         exit 0
       } else {
         $releaseTag = $env:RELEASE_TAG
