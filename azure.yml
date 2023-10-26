@@ -1,3 +1,4 @@
+name: Main.build
 parameters:
   - name: PR_Number
     type: string
