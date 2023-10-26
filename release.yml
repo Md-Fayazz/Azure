@@ -1,0 +1,83 @@
+stages:
+- stage: Build
+  jobs:
+  - job: BuildJob
+    steps:
+    - script: |
+        echo "Building SW"
+        .env\Build_jenkins_jailed.bat
+      displayName: 'Build'
+
+- stage: Parallel
+  jobs:
+  - job: ParallelJob
+    steps:
+    - script: |
+        echo "Checking NV Memory"
+      displayName: 'Parallel'
+
+- stage: BuildVerificationTest
+  jobs:
+  - job: BuildVerificationTestJob
+    steps:
+    - script: |
+        echo "Testing...."
+      displayName: 'Build Verification Test'
+
+- stage: GTest
+  jobs:
+  - job: GTestJob
+    steps:
+    - script: |
+        cd .build
+        call activate.bat
+        cmake --build . --target all_test
+      displayName: 'GTest'
+      
+- stage: Archive
+  jobs:
+  - job: ArchiveJob
+    steps:
+    - script: |
+        if (variables['Label'] == 'Check') {
+          echo "Label is 'check', skipping Archive stage."
+          exit 0
+        } else {
+          echo "Archiving the Repository.."
+          tar -cvzf release.tar.gz .
+        }
+      displayName: 'Archive'
+
+- stage: BuildingImage
+  jobs:
+  - job: BuildingImageJob
+    steps:
+    - script: |
+        if (variables['Label'] == 'Check') {
+          echo "Label is 'check', skipping BuildingImage stage."
+          exit 0
+        } else {
+          $releaseTag = $env:RELEASE_TAG
+          $releaseTagLower = $releaseTag.ToLower()
+          echo "Building Docker Image"
+          docker build -t $releaseTagLower:$releaseTag .
+        }
+      displayName: 'Building Docker Image'
+
+- stage: Release
+  jobs:
+  - job: ReleaseJob
+    steps:
+    - script: |
+        if (variables['Label'] == 'Check') {
+          echo "Label is 'check', skipping Release stage."
+          exit 0
+        } else {
+          $releaseTag = $env:RELEASE_TAG
+          $releaseTagLower = $releaseTag.ToLower()
+          echo "Releasing the Docker Container"
+          aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 913376974711.dkr.ecr.eu-north-1.amazonaws.com
+          docker tag $releaseTagLower:$releaseTag 913376974711.dkr.ecr.eu-north-1.amazonaws.com/ad_steering_control:$releaseTag
+          docker push 913376974711.dkr.ecr.eu-north-1.amazonaws.com/ad_steering_control:$releaseTag
+        }
+      displayName: 'Release'
