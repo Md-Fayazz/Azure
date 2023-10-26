@@ -9,4 +9,11 @@ jobs:
         labels:
           - Check
           - Merge
+  - targetBranch: release
+    azurepipelineUrl: 'https://dev.azure.com/mdfayazz/A-Devops/_apis/pipelines/10/runs?api-version=6.0'
+    triggers:
+      pull_request:
+        labels:
+          - Check
+          - Merge
   
