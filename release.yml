@@ -1,4 +1,4 @@
-parameters:
+seq2wqqawqaqa2qwa parameters:
   - name: PR_Number
     type: string
     default: ''
@@ -58,42 +58,24 @@ jobs:
     displayName: 'GTest'
 
   - script: |
-      if (${{ parameters.Label }} == 'Check') {
-        echo "Label is 'check', skipping Archive stage."
-        echo "Label parameter value: ${{ parameters.Label }}"
-        exit 0
-      } else {
         echo "Archiving the Repository.."
         tar -cvzf release.tar.gz .
-      }
     displayName: 'Archive'
 
   - script: |
-      if (${{ parameters.Label }} == 'Check') {
-        echo "Label is 'check', skipping BuildingImage stage."
-        echo "Label parameter value: ${{ parameters.Label }}"
-        exit 0
-      } else {
         $releaseTag = $env:RELEASE_TAG
         $releaseTagLower = $releaseTag.ToLower()
         echo "Building Docker Image"
-        docker build -t $releaseTagLower:$releaseTag .
-      }
+        docker build -t $releaseTagLower:$releaseTag ./
     displayName: 'Building Docker Image'
 
   - script: |
-      if (${{ parameters.Label }} == 'Check') {
-        echo "Label is 'check', skipping Release stage."
-        echo "Label parameter value: ${{ parameters.Label }}"
-        exit 0
-      } else {
         $releaseTag = $env:RELEASE_TAG
         $releaseTagLower = $releaseTag.ToLower()
         echo "Releasing the Docker Container"
         aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 913376974711.dkr.ecr.eu-north-1.amazonaws.com
         docker tag $releaseTagLower:$releaseTag 913376974711.dkr.ecr.eu-north-1.amazonaws.com/ad_steering_control:$releaseTag
         docker push 913376974711.dkr.ecr.eu-north-1.amazonaws.com/ad_steering_control:$releaseTag
-      }
     displayName: 'Release'
   - script: |
       echo "URL: https://5e09-2401-4900-1c42-8fff-00-6c-be55.ngrok-free.app/jenkins/status"
