@@ -1,4 +1,4 @@
-seq2wqqawqaqa2qwa parameters:
+parameters:
   - name: PR_Number
     type: string
     default: ''
